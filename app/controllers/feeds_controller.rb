@@ -21,7 +21,8 @@ class FeedsController < ApplicationController
     end
   end
   def confirm
-    @feed = Feed.new(feed_params)
+    @feed = current_user.feeds.build(feed_params)
+    render :new if @feed.invalid?
   end
 
   # GET /feeds/1/edit
@@ -31,7 +32,7 @@ class FeedsController < ApplicationController
   # POST /feeds
   # POST /feeds.json
   def create
-    @feed = Feed.new(feed_params)
+    @feed = current_user.feeds.build(feed_params)
 
     respond_to do |format|
       if @feed.save
