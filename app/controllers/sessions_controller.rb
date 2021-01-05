@@ -11,4 +11,9 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+  def destroy
+    session.delete(:user_id)
+    flash[:notice] = 'Logged out!'
+    redirect_to new_session_path
+  end
 end
