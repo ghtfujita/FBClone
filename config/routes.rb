@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       post :confirm
     end
   end
-  root 'tops#index'
+  root 'sessions#new'
   resources :users, only: [:new, :create, :show]
   resources :sessions, only: [:new, :create, :destroy]
 end
