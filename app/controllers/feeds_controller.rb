@@ -22,7 +22,7 @@ class FeedsController < ApplicationController
   end
   def confirm
     @feed = current_user.feeds.build(feed_params)
-    render :new if @feed.invalid?
+    render :new if @feed.invalid? || @feed.id == "confirm"
   end
 
   # GET /feeds/1/edit
@@ -70,13 +70,18 @@ class FeedsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_feed
+  # Use callbacks to share common setup or constraints between actions.
+  def set_feed
+    if params[:id] =! "confirm"
       @feed = Feed.find(params[:id])
+    else
+      redirect_to new_feed_path
     end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def feed_params
-      params.require(:feed).permit(:title, :content, :image, :image_cache)
-    end
+  # Only allow a list of trusted parameters through.
+  def feed_params
+    params.require(:feed).permit(:title, :content, :image, :image_cache)
+  end
 end
+
